@@ -11,3 +11,14 @@
 
 ### Hyper-V Checkpoints
 - DC01: v0.2 - Active Directory Baseline
+
+## v0.3 - Domain Joined
+
+### Added
+- Renamed workstation to LAB-ADMIN.
+- Joined LAB-ADMIN to the lab.richardrubio.com domain.
+- Verified domain authentication with LAB\richard.rubio.
+- Configured LAB-ADMIN to use DC01 as its DNS server.
+
+### Hyper-V Checkpoints
+- LAB-ADMIN: v0.3 - Domain Joined

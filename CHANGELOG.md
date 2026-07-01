@@ -22,3 +22,15 @@
 
 ### Hyper-V Checkpoints
 - LAB-ADMIN: v0.3 - Domain Joined
+
+## v0.4 - Remote Administration
+
+### Added
+- Installed RSAT administration tools.
+- Installed Active Directory administration tools.
+- Installed DNS management tools.
+- Installed Group Policy Management.
+- Verified remote administration from LAB-ADMIN.
+
+### Hyper-V Checkpoints
+- LAB-ADMIN: v0.4 - Remote Administration

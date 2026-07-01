@@ -14,7 +14,7 @@ lab.richardrubio.com
 - LAB-ADMIN
 
 ## Current Checkpoints
-- DC01: v0.2 - Active Directory Baseline
+- DC01: v0.5 - Local Administrator GPO
 - LAB-ADMIN: v0.5 - Local Administrator GPO
 
 ## Completed

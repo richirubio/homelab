@@ -1,10 +1,10 @@
 # Project State
 
 ## Current Version
-v0.5
+v0.6
 
 ## Current Module
-Active Directory
+Group Policy - Workstation Management
 
 ## Lab Domain
 lab.richardrubio.com
@@ -40,9 +40,18 @@ lab.richardrubio.com
 - GG-Workstation-Admins configured as local Administrators on domain workstations.
 - GPO successfully applied.
 - Verified that richard.admin is local administrator on LAB-ADMIN.
+- GPO created:
+  - GPO - Lock Screen - Workstations
+- Corporate resources created:
+  - \\DC01\NETLOGON\Corporate\
+  - \\DC01\NETLOGON\Corporate\LockScreen\
+- Corporate lock screen configured through Group Policy.
+- Users prevented from changing the corporate lock screen.
+- Lock screen tips and suggestions disabled.
+- Group Policy Search adopted as the standard method for locating Administrative Template policies.
 
 ## Next Goal
-Learn Group Policy processing and create additional administrative GPOs for domain workstations.
+Configure Microsoft Defender through Group Policy.
 
 ## Methodology
 - One step at a time.
@@ -51,3 +60,11 @@ Learn Group Policy processing and create additional administrative GPOs for doma
 - Avoid unnecessary detail.
 - Do not repeat concepts already understood unless needed.
 - Work like a professional Microsoft systems administrator.
+- Design every solution with enterprise scalability in mind, even when implementing it in a small lab.
+- Standard Group Policy workflow:
+  1. Search the policy using Group Policy Search.
+  2. Read the Microsoft documentation.
+  3. Configure the policy.
+  4. Validate with gpresult.
+  5. Validate the functional behavior.
+- One GPO = One functional purpose.

@@ -34,3 +34,41 @@
 
 ### Hyper-V Checkpoints
 - LAB-ADMIN: v0.4 - Remote Administration
+  
+## v0.5 - Local Administrator Baseline
+
+### Added
+- Created the Local Administrators workstation GPO.
+- Linked the GPO to the Workstations OU.
+- Configured GG-Workstation-Admins as local Administrators on domain workstations.
+- Verified successful Group Policy deployment.
+
+### Hyper-V Checkpoints
+- DC01: v0.5 - Local Administrator GPO
+- LAB-ADMIN: v0.5 - Local Administrator GPO
+
+## v0.6 - Corporate Lock Screen
+
+### Added
+- Created the corporate Lock Screen GPO.
+- Created the corporate NETLOGON resource structure.
+- Configured the corporate lock screen.
+- Prevented users from changing the corporate lock screen.
+- Disabled Windows lock screen tips.
+- Adopted Group Policy Search as the standard policy discovery workflow.
+
+### Hyper-V Checkpoints
+- DC01: v0.6 - Corporate Lock Screen
+- LAB-ADMIN: v0.6 - Corporate Lock Screen
+
+## v0.7 - Microsoft Defender Real-time Protection
+
+### Added
+- Created the Microsoft Defender workstation GPO.
+- Configured the Microsoft Defender Real-time Protection baseline.
+- Standardized real-time protection settings.
+- Standardized local override behavior.
+
+### Hyper-V Checkpoints
+- DC01: v0.7 - Microsoft Defender Real-time Protection
+- LAB-ADMIN: v0.7 - Microsoft Defender Real-time Protection

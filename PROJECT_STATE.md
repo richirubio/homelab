@@ -1,10 +1,10 @@
 # Project State
 
 ## Current Version
-v0.6
+v0.7
 
 ## Current Module
-Group Policy - Workstation Management
+Group Policy - Microsoft Defender
 
 ## Lab Domain
 lab.richardrubio.com
@@ -49,9 +49,13 @@ lab.richardrubio.com
 - Users prevented from changing the corporate lock screen.
 - Lock screen tips and suggestions disabled.
 - Group Policy Search adopted as the standard method for locating Administrative Template policies.
+- GPO created:
+  - GPO - Microsoft Defender - Workstations
+- GPO linked to the Workstations OU.
+- Microsoft Defender Real-time Protection baseline configured.
 
 ## Next Goal
-Configure Microsoft Defender through Group Policy.
+Continue configuring Microsoft Defender through Group Policy.
 
 ## Methodology
 - One step at a time.

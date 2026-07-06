@@ -19,6 +19,10 @@
 - Joined LAB-ADMIN to the lab.richardrubio.com domain.
 - Verified domain authentication with LAB\richard.rubio.
 - Configured LAB-ADMIN to use DC01 as its DNS server.
+- Configured Microsoft Defender Antivirus Remediation.
+- Configured Scheduled Full Scan baseline.
+- Configured Brute-Force Protection baseline.
+- Configured Remote Encryption Protection baseline.
 
 ### Hyper-V Checkpoints
 - LAB-ADMIN: v0.3 - Domain Joined

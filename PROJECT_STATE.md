@@ -4,7 +4,7 @@
 v0.7
 
 ## Current Module
-Group Policy - Microsoft Defender
+Group Policy - Microsoft Defender Antivirus
 
 ## Lab Domain
 lab.richardrubio.com
@@ -53,6 +53,11 @@ lab.richardrubio.com
   - GPO - Microsoft Defender - Workstations
 - GPO linked to the Workstations OU.
 - Microsoft Defender Real-time Protection baseline configured.
+- Microsoft Defender Antivirus configured:
+  - Remediation
+    - Scheduled Full Scan
+    - Brute-Force Protection
+    - Remote Encryption Protection
 
 ## Next Goal
 Continue configuring Microsoft Defender through Group Policy.

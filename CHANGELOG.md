@@ -76,3 +76,27 @@
 ### Hyper-V Checkpoints
 - DC01: v0.7 - Microsoft Defender Real-time Protection
 - LAB-ADMIN: v0.7 - Microsoft Defender Real-time Protection
+
+
+## v0.8 - Microsoft Entra Foundation
+
+### Added
+- Created the Microsoft 365 Business Premium trial tenant.
+- Accessed the Microsoft 365 Admin Center.
+- Accessed the Microsoft Entra Admin Center.
+- Validated Microsoft 365 Business Premium licensing.
+- Created a temporary cloud user to validate onboarding.
+- Assigned a Microsoft 365 Business Premium license to the temporary user.
+- Validated first sign-in and Exchange Online mailbox provisioning.
+- Deleted the temporary cloud user to keep the future hybrid identity model clean.
+- Defined the initial hybrid identity approach:
+  - AD DS will be the source of employee identities.
+  - Microsoft Entra ID will receive users through Microsoft Entra Connect.
+  - The cloud richard.admin account will remain tenant-only.
+  - The AD DS richard.admin account will not be synchronized.
+
+### Next
+- Verify current AD DS OU and user structure.
+- Create missing AD DS users.
+- Prepare Microsoft Entra Connect.
+- Synchronize selected AD DS users to Microsoft Entra ID.

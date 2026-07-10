@@ -1,7 +1,7 @@
 # Project State
 
 ## Current Version
-v0.8
+v0.9
 
 ## Current Module
 Microsoft Entra Foundation
@@ -19,24 +19,53 @@ MD-102 - Explore endpoint management
 
 Current status:
 - Microsoft Learn remains the main guide.
-- The MD-102 course is temporarily paused to make Microsoft Entra concepts visible in the real portal.
-- This pause is limited to Microsoft Entra ID, users, licenses and hybrid identity preparation.
-- After validating the hybrid identity foundation, return to Microsoft Learn.
+- The MD-102 course is temporarily paused to validate Microsoft Entra ID and hybrid identity in the HomeLab.
+- Microsoft Entra Connect has been deployed and the initial synchronization has completed successfully.
+- Remaining hybrid identity checks must be completed before returning to Microsoft Learn.
 
-## Lab Domain
-lab.richardrubio.com
+## Identity Architecture
+
+Active Directory forest and domain:
+- lab.richardrubio.com
+
+User sign-in UPN:
+- lab.home-hub.es
+
+Microsoft Entra tenant:
+- richardrubiolab.onmicrosoft.com
+
+Microsoft 365 primary domain:
+- lab.home-hub.es
+
+DNS management:
+- home-hub.es is managed through Cloudflare.
+- Microsoft 365 DNS records for lab.home-hub.es are managed through Cloudflare.
+
+Architecture decision:
+- The existing AD DS forest remains lab.richardrubio.com.
+- The forest is not renamed.
+- AD DS users use @lab.home-hub.es as their sign-in UPN.
+- AD DS remains the source of truth for employee identities.
+- Microsoft Entra ID receives selected identities through Microsoft Entra Connect.
 
 ## Microsoft 365 Tenant
+
 Tenant:
 - richardrubiolab.onmicrosoft.com
+
+Primary domain:
+- lab.home-hub.es
 
 Subscription:
 - Microsoft 365 Business Premium trial
 
 Cloud administrator:
 - richard.admin@richardrubiolab.onmicrosoft.com
-- Purpose: tenant administration / break-glass account
-- This account is cloud-only and must not be synchronized from AD DS.
+- Display name: Richard Berriel
+- Role: Global Administrator
+- Purpose: tenant administration / emergency account
+- Source: cloud-only
+- This account must not be synchronized from AD DS.
 
 ## Virtual Machines
 - DC01
@@ -51,24 +80,60 @@ Cloud administrator:
 Domain:
 - lab.richardrubio.com
 
-Known OUs:
+Alternative UPN suffix:
+- lab.home-hub.es
+
+OUs:
 - Admin
 - Employees
 - Groups
 - Workstations
 
-Known AD users:
-- richard.rubio
-  - Purpose: daily user / future daily admin account
-- richard.admin
-  - Purpose: domain administration account
-  - Current known location: Employees OU
-  - Important: do not synchronize this account to Microsoft Entra ID
+### Admin OU
 
-Known AD group:
+Users:
+- richard.admin
+  - UPN: richard.admin@lab.home-hub.es
+  - Purpose: AD DS administration
+  - Member of:
+    - GG-Workstation-Admins
+    - Domain Admins
+    - Enterprise Admins
+  - Excluded from Microsoft Entra synchronization
+
+### Employees OU
+
+Users:
+- richard.rubio
+  - UPN: richard.rubio@lab.home-hub.es
+  - Purpose: daily user / systems administrator identity
+  - Synchronized to Microsoft Entra ID
+
+- richard.helpdesk
+  - UPN: richard.helpdesk@lab.home-hub.es
+  - Purpose: future helpdesk and delegated administration practice
+  - Currently a standard AD DS user
+  - Synchronized to Microsoft Entra ID
+
+- ana.lopez
+  - UPN: ana.lopez@lab.home-hub.es
+  - Purpose: HR user
+  - Synchronized to Microsoft Entra ID
+
+- pedro.garcia
+  - UPN: pedro.garcia@lab.home-hub.es
+  - Purpose: management user
+  - Synchronized to Microsoft Entra ID
+
+### Groups OU
+
+Known group:
 - GG-Workstation-Admins
   - Purpose: grants local administrator rights on domain workstations
-  - Member: richard.admin
+  - Member:
+    - richard.admin
+
+### Workstations OU
 
 Known workstation:
 - LAB-ADMIN
@@ -76,44 +141,94 @@ Known workstation:
   - Located in Workstations OU
   - Uses DC01 as primary DNS
   - RSAT installed
+  - Remote administration verified
+
+## Microsoft Entra Connect
+
+Status:
+- Installed on DC01
+- Configured
+- Initial synchronization completed successfully
+- Microsoft Entra Connect status: Enabled
+
+Sign-in method:
+- Password Hash Synchronization
+
+Single sign-on:
+- Not enabled
+
+Source Anchor:
+- Managed automatically by Microsoft Entra Connect
+
+Directory:
+- lab.richardrubio.com
+
+Tenant:
+- richardrubiolab.onmicrosoft.com
+
+UPN configuration:
+- lab.home-hub.es is verified in Microsoft Entra ID.
+- lab.richardrubio.com remains the AD DS forest name and is not added as a Microsoft Entra domain.
+- No AD DS users currently use @lab.richardrubio.com as their UPN.
+
+Synchronization scope:
+
+Synchronized OUs:
+- Employees
+- Groups
+- Workstations
+
+Excluded OUs and containers:
+- Admin
+- Builtin
+- Computers
+- Domain Controllers
+- ForeignSecurityPrincipals
+- Infrastructure
+- LostAndFound
+- Managed Service Accounts
+- Program Data
+- System
+- Users
+
+Optional features:
+- Password Hash Synchronization enabled
+- Exchange hybrid deployment disabled
+- Exchange Mail Public Folders disabled
+- Password writeback disabled
+- Group writeback disabled
+- Device writeback disabled
+- Directory extension attribute sync disabled
+- Microsoft Entra ID app and attribute filtering disabled
+- Staging mode disabled
+- Accidental deletion threshold configured with the default value of 500
 
 ## Microsoft Entra Current State
 
 Cloud-only users:
 - richard.admin@richardrubiolab.onmicrosoft.com
+  - Display name: Richard Berriel
   - Global Administrator
-  - Tenant / emergency account
+  - Tenant administration / emergency account
+  - On-premises sync: No
+
+Synchronized users:
+- richard.rubio@lab.home-hub.es
+  - On-premises sync: Yes
+
+- richard.helpdesk@lab.home-hub.es
+  - On-premises sync: Yes
+
+- ana.lopez@lab.home-hub.es
+  - On-premises sync: Yes
+
+- pedro.garcia@lab.home-hub.es
+  - On-premises sync: Yes
 
 Deleted test users:
 - ana.lopez@richardrubiolab.onmicrosoft.com
   - Created temporarily to validate cloud user creation, licensing, onboarding and Exchange Online provisioning
-  - Deleted to keep the future hybrid identity model clean
-
-## Hybrid Identity Decision
-
-Target architecture:
-- AD DS is the source of truth for employee identities.
-- Microsoft Entra ID receives employee identities through Microsoft Entra Connect.
-- richard.admin cloud-only remains the tenant break-glass administrator.
-- richard.admin from AD DS must not be synchronized.
-- Employee and operational users should be created in AD DS first, then synchronized to Microsoft Entra ID.
-
-Target AD users before Microsoft Entra Connect:
-- richard.rubio
-  - Daily administrator / systems administrator
-- helpdesk
-  - Support user
-- ana.lopez
-  - HR user
-- pedro.garcia
-  - Management user
-
-Target synchronization result:
-- richard.rubio -> synchronized to Entra
-- helpdesk -> synchronized to Entra
-- ana.lopez -> synchronized to Entra
-- pedro.garcia -> synchronized to Entra
-- richard.admin from AD DS -> excluded from synchronization
+  - Deleted before hybrid synchronization to avoid duplicate identities
 
 ## Completed
 
@@ -123,17 +238,27 @@ Target synchronization result:
 - Forest created: lab.richardrubio.com.
 - Active Directory-integrated DNS configured.
 - Initial OU structure created.
-- Domain users created:
-  - richard.rubio
-  - richard.admin
-- Domain group created:
-  - GG-Workstation-Admins
-- richard.admin added to GG-Workstation-Admins.
 - LAB-ADMIN joined to the domain.
 - LAB-ADMIN moved to the Workstations OU.
 - LAB-ADMIN configured to use DC01 as primary DNS.
 - RSAT installed on LAB-ADMIN.
 - Remote administration verified from LAB-ADMIN.
+
+### Active Directory Identity
+- AD DS users created:
+  - richard.rubio
+  - richard.admin
+  - richard.helpdesk
+  - ana.lopez
+  - pedro.garcia
+- richard.admin moved to the Admin OU.
+- Employee and operational users located in the Employees OU.
+- Alternative UPN suffix lab.home-hub.es added to the forest.
+- All current AD DS users migrated to the @lab.home-hub.es UPN.
+- richard.admin added to Domain Admins.
+- richard.admin added to Enterprise Admins.
+- GG-Workstation-Admins created.
+- richard.admin added to GG-Workstation-Admins.
 
 ### Group Policy
 - GPO created:
@@ -142,6 +267,7 @@ Target synchronization result:
 - GG-Workstation-Admins configured as local Administrators on domain workstations.
 - GPO successfully applied.
 - Verified that richard.admin is local administrator on LAB-ADMIN.
+
 - GPO created:
   - GPO - Lock Screen - Workstations
 - Corporate resources created:
@@ -150,16 +276,18 @@ Target synchronization result:
 - Corporate lock screen configured through Group Policy.
 - Users prevented from changing the corporate lock screen.
 - Lock screen tips and suggestions disabled.
-- Group Policy Search adopted as the standard method for locating Administrative Template policies.
+
 - GPO created:
   - GPO - Microsoft Defender - Workstations
 - GPO linked to the Workstations OU.
 - Microsoft Defender Real-time Protection baseline configured.
 - Microsoft Defender Antivirus configured:
   - Remediation
-    - Scheduled Full Scan
-    - Brute-Force Protection
-    - Remote Encryption Protection
+  - Scheduled Full Scan
+  - Brute-Force Protection
+  - Remote Encryption Protection
+
+- Group Policy Search adopted as the standard method for locating Administrative Template policies.
 
 ### Microsoft Entra Foundation
 - Microsoft 365 Business Premium trial tenant created.
@@ -167,24 +295,33 @@ Target synchronization result:
 - Microsoft 365 Admin Center accessed.
 - Tenant language/interface changed toward English.
 - Microsoft 365 Business Premium licensing explored.
-- Cloud onboarding workflow validated with temporary user ana.lopez.
+- Cloud onboarding workflow validated with a temporary user.
 - Exchange Online provisioning validated.
-- Hybrid identity approach defined.
+- Hybrid identity architecture defined.
+- lab.home-hub.es added and verified as a Microsoft 365 custom domain.
+- lab.home-hub.es configured as the tenant default domain.
+- Microsoft 365 DNS records configured through Cloudflare.
+- Microsoft Entra Connect installed and configured.
+- Password Hash Synchronization enabled.
+- OU filtering configured.
+- Initial synchronization completed.
+- Expected synchronized users verified in Microsoft Entra ID.
+- AD DS administrative account successfully excluded from synchronization.
 
 ## Next Goal
-Prepare AD DS users and deploy Microsoft Entra Connect.
+Validate the completed hybrid identity foundation and return to Microsoft Learn.
 
 Immediate next steps:
-1. Verify current OU/user structure in AD DS.
-2. Create missing AD users:
-   - helpdesk
-   - ana.lopez
-   - pedro.garcia
-3. Prepare synchronization scope.
-4. Install Microsoft Entra Connect.
-5. Synchronize selected AD DS users to Microsoft Entra ID.
-6. Verify that synchronized users show On-premises sync = Yes.
-7. Assign licenses and roles after synchronization.
+1. Inspect the AD DS synchronization account created by Microsoft Entra Connect.
+2. Verify the synchronization service and scheduler.
+3. Test sign-in with a synchronized user.
+4. Confirm Password Hash Synchronization behavior.
+5. Assign licenses according to each test user's purpose.
+6. Review whether Enterprise Admins membership for richard.admin should remain permanent.
+7. Update CHANGELOG.md.
+8. Document the hybrid identity architecture and account purposes.
+9. Create updated Hyper-V checkpoints.
+10. Return immediately to the MD-102 Microsoft Learn path.
 
 ## Methodology
 - Microsoft Learn is the main guide.
@@ -203,8 +340,10 @@ Immediate next steps:
 - PROJECT_STATE.md is the source of truth for the current HomeLab state.
 - CHANGELOG.md records what changed between versions.
 - Documentation must help future troubleshooting and decision-making.
-- Do not document obvious facts unless they help avoid confusion later.
+- Do not document temporary web interface locations or other fast-changing portal details.
+- Do not document obvious facts unless they help avoid future confusion.
 - Comments and notes should explain decisions, not repeat what a setting does.
+- Important architecture decisions must record what was chosen, why it was chosen and where it would be changed later.
 
 ## Standard Group Policy Workflow
 1. Search the policy using Group Policy Search.
@@ -216,5 +355,10 @@ Immediate next steps:
 ## Design Rules
 - One GPO = One functional purpose.
 - AD DS remains the source of employee identities in the hybrid model.
-- Cloud-only tenant admin account must remain available for emergency access.
-- Do not synchronize privileged AD DS admin accounts unless there is a specific reason.
+- The AD DS forest remains lab.richardrubio.com.
+- The standard user UPN is @lab.home-hub.es.
+- Cloudflare manages public DNS for home-hub.es.
+- Cloud-only tenant administrator account must remain available for emergency access.
+- Privileged AD DS accounts must not be synchronized unless there is a specific reason.
+- Synchronization scope is controlled through OU filtering.
+- New AD DS users must be created with the @lab.home-hub.es UPN.

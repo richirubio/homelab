@@ -1,102 +1,49 @@
-# Changelog
 
-## v0.2 - Active Directory Baseline
-
-### Added
-- Installed Windows Server 2025 on DC01.
-- Promoted DC01 to Domain Controller.
-- Created the forest lab.richardrubio.com.
-- Created the initial OU structure.
-- Created the first domain user.
-
-### Hyper-V Checkpoints
-- DC01: v0.2 - Active Directory Baseline
-
-## v0.3 - Domain Joined
+## v0.9 - Hybrid Identity Foundation
 
 ### Added
-- Renamed workstation to LAB-ADMIN.
-- Joined LAB-ADMIN to the lab.richardrubio.com domain.
-- Verified domain authentication with LAB\richard.rubio.
-- Configured LAB-ADMIN to use DC01 as its DNS server.
-- Configured Microsoft Defender Antivirus Remediation.
-- Configured Scheduled Full Scan baseline.
-- Configured Brute-Force Protection baseline.
-- Configured Remote Encryption Protection baseline.
+- Added the alternative UPN suffix:
+  - lab.home-hub.es
+- Migrated all AD DS user UPNs to @lab.home-hub.es.
+- Verified lab.home-hub.es as the Microsoft 365 custom domain.
+- Configured lab.home-hub.es as the tenant default domain.
+- Configured Microsoft 365 DNS records through Cloudflare.
+- Installed Microsoft Entra Connect on DC01.
+- Configured Microsoft Entra Connect using Password Hash Synchronization.
+- Configured automatic Source Anchor management.
+- Configured OU filtering:
+  - Employees
+  - Groups
+  - Workstations
+- Excluded privileged administrative accounts from synchronization.
+- Completed the initial synchronization to Microsoft Entra ID.
+- Verified synchronized users:
+  - richard.rubio
+  - richard.helpdesk
+  - ana.lopez
+  - pedro.garcia
+- Verified that the cloud-only Global Administrator remains independent from AD DS synchronization.
 
-### Hyper-V Checkpoints
-- LAB-ADMIN: v0.3 - Domain Joined
+### Changed
+- Adopted a hybrid identity architecture.
+- AD DS forest remains:
+  - lab.richardrubio.com
+- Standard user sign-in UPN changed to:
+  - @lab.home-hub.es
+- Microsoft Entra ID now uses lab.home-hub.es as the primary domain.
+- Public Microsoft 365 DNS management moved to Cloudflare.
 
-## v0.4 - Remote Administration
-
-### Added
-- Installed RSAT administration tools.
-- Installed Active Directory administration tools.
-- Installed DNS management tools.
-- Installed Group Policy Management.
-- Verified remote administration from LAB-ADMIN.
-
-### Hyper-V Checkpoints
-- LAB-ADMIN: v0.4 - Remote Administration
-  
-## v0.5 - Local Administrator Baseline
-
-### Added
-- Created the Local Administrators workstation GPO.
-- Linked the GPO to the Workstations OU.
-- Configured GG-Workstation-Admins as local Administrators on domain workstations.
-- Verified successful Group Policy deployment.
-
-### Hyper-V Checkpoints
-- DC01: v0.5 - Local Administrator GPO
-- LAB-ADMIN: v0.5 - Local Administrator GPO
-
-## v0.6 - Corporate Lock Screen
-
-### Added
-- Created the corporate Lock Screen GPO.
-- Created the corporate NETLOGON resource structure.
-- Configured the corporate lock screen.
-- Prevented users from changing the corporate lock screen.
-- Disabled Windows lock screen tips.
-- Adopted Group Policy Search as the standard policy discovery workflow.
-
-### Hyper-V Checkpoints
-- DC01: v0.6 - Corporate Lock Screen
-- LAB-ADMIN: v0.6 - Corporate Lock Screen
-
-## v0.7 - Microsoft Defender Real-time Protection
-
-### Added
-- Created the Microsoft Defender workstation GPO.
-- Configured the Microsoft Defender Real-time Protection baseline.
-- Standardized real-time protection settings.
-- Standardized local override behavior.
-
-### Hyper-V Checkpoints
-- DC01: v0.7 - Microsoft Defender Real-time Protection
-- LAB-ADMIN: v0.7 - Microsoft Defender Real-time Protection
-
-
-## v0.8 - Microsoft Entra Foundation
-
-### Added
-- Created the Microsoft 365 Business Premium trial tenant.
-- Accessed the Microsoft 365 Admin Center.
-- Accessed the Microsoft Entra Admin Center.
-- Validated Microsoft 365 Business Premium licensing.
-- Created a temporary cloud user to validate onboarding.
-- Assigned a Microsoft 365 Business Premium license to the temporary user.
-- Validated first sign-in and Exchange Online mailbox provisioning.
-- Deleted the temporary cloud user to keep the future hybrid identity model clean.
-- Defined the initial hybrid identity approach:
-  - AD DS will be the source of employee identities.
-  - Microsoft Entra ID will receive users through Microsoft Entra Connect.
-  - The cloud richard.admin account will remain tenant-only.
-  - The AD DS richard.admin account will not be synchronized.
+### Architecture Decisions
+- The AD DS forest will not be renamed.
+- AD DS remains the source of truth for employee identities.
+- User synchronization is controlled through OU filtering.
+- Privileged AD DS administrative accounts remain excluded from synchronization.
+- Password Hash Synchronization is the selected sign-in method.
 
 ### Next
-- Verify current AD DS OU and user structure.
-- Create missing AD DS users.
-- Prepare Microsoft Entra Connect.
-- Synchronize selected AD DS users to Microsoft Entra ID.
+- Inspect the synchronization service account created by Microsoft Entra Connect.
+- Validate the synchronization scheduler.
+- Test authentication using synchronized users.
+- Assign Microsoft 365 licenses according to each user's role.
+- Document the hybrid identity architecture.
+- Return to the Microsoft Learn MD-102 learning path.

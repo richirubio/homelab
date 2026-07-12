@@ -1,7 +1,7 @@
 # Project State
 
 ## Current Version
-v0.9
+v1.0
 
 ## Current Module
 Microsoft Entra Foundation
@@ -203,6 +203,15 @@ Optional features:
 - Staging mode disabled
 - Accidental deletion threshold configured with the default value of 500
 
+Synchronization Engine
+
+- ADSync service verified.
+- Synchronization Service architecture inspected.
+- Connectors validated.
+- Metaverse inspected.
+- Scheduler configuration verified.
+- MSOL synchronization account verified.
+
 ## Microsoft Entra Current State
 
 Cloud-only users:
@@ -309,19 +318,14 @@ Deleted test users:
 - AD DS administrative account successfully excluded from synchronization.
 
 ## Next Goal
-Validate the completed hybrid identity foundation and return to Microsoft Learn.
+
+Return to the Microsoft Learn MD-102 learning path.
 
 Immediate next steps:
-1. Inspect the AD DS synchronization account created by Microsoft Entra Connect.
-2. Verify the synchronization service and scheduler.
-3. Test sign-in with a synchronized user.
-4. Confirm Password Hash Synchronization behavior.
-5. Assign licenses according to each test user's purpose.
-6. Review whether Enterprise Admins membership for richard.admin should remain permanent.
-7. Update CHANGELOG.md.
-8. Document the hybrid identity architecture and account purposes.
-9. Create updated Hyper-V checkpoints.
-10. Return immediately to the MD-102 Microsoft Learn path.
+
+1. Create updated Hyper-V checkpoints.
+2. Continue the Microsoft Learn MD-102 course.
+3. Validate future Microsoft Entra and Intune concepts in the HomeLab only when required by the learning path.
 
 ## Methodology
 - Microsoft Learn is the main guide.
@@ -344,6 +348,7 @@ Immediate next steps:
 - Do not document obvious facts unless they help avoid future confusion.
 - Comments and notes should explain decisions, not repeat what a setting does.
 - Important architecture decisions must record what was chosen, why it was chosen and where it would be changed later.
+- Architecture documents should record decisions and rationale, not detailed learning material.
 
 ## Standard Group Policy Workflow
 1. Search the policy using Group Policy Search.

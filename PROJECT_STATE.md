@@ -4,7 +4,7 @@
 v1.0
 
 ## Current Module
-Microsoft Entra Foundation
+MD-102 - Administración de la identidad y la autenticación del dispositivo mediante Microsoft Entra ID
 
 ## Project Goal
 Build a Microsoft administrator HomeLab aligned with Microsoft Learn and MD-102.
@@ -18,10 +18,12 @@ Main priorities:
 MD-102 - Explore endpoint management
 
 Current status:
-- Microsoft Learn remains the main guide.
-- The MD-102 course is temporarily paused to validate Microsoft Entra ID and hybrid identity in the HomeLab.
-- Microsoft Entra Connect has been deployed and the initial synchronization has completed successfully.
-- Remaining hybrid identity checks must be completed before returning to Microsoft Learn.
+- Microsoft Learn is the main guide.
+- Microsoft Entra Connect deployment and initial hybrid identity validation are complete.
+- The MD-102 learning path has resumed.
+- The previous module covering Microsoft Entra device configuration and management is complete.
+- Current module: Administración de la identidad y la autenticación del dispositivo mediante Microsoft Entra ID.
+- Exact continuation point: first unit, not yet started.
 
 ## Identity Architecture
 
@@ -158,7 +160,8 @@ Single sign-on:
 - Not enabled
 
 Source Anchor:
-- Managed automatically by Microsoft Entra Connect
+- ms-DS-ConsistencyGuid
+- Selected and managed automatically by Microsoft Entra Connect.
 
 Directory:
 - lab.richardrubio.com
@@ -239,6 +242,66 @@ Deleted test users:
   - Created temporarily to validate cloud user creation, licensing, onboarding and Exchange Online provisioning
   - Deleted before hybrid synchronization to avoid duplicate identities
 
+## Microsoft Entra Device Configuration
+
+### Device Join Authorization Group
+
+Applied and verified:
+- Security group created: GG-Entra-Device-Join
+- Membership type: Assigned
+- Microsoft Entra roles can be assigned: No
+- Description: Users authorized to join Windows devices to Microsoft Entra ID
+- Owner: richard.admin@richardrubiolab.onmicrosoft.com
+- Member: richard.rubio@lab.home-hub.es
+
+Design decision:
+- GG-Entra-Device-Join uses assigned membership because it grants a sensitive authorization.
+- Membership must be managed explicitly and must not depend on dynamic attributes.
+
+### Device Settings
+
+Applied and verified:
+- Users may join devices to Microsoft Entra ID is configured as Selected.
+- GG-Entra-Device-Join is configured as the authorized group.
+- Require Multifactor Authentication to register or join devices with Microsoft Entra is configured as Require.
+
+Future design:
+- Replace the legacy MFA device setting with a Conditional Access policy for the Register or join devices user action.
+- After Conditional Access is configured and validated, change the legacy MFA device setting to Do not require.
+
+### Intune Automatic Enrollment
+
+Design decision:
+- Keep MDM User Scope configured as Some to represent a controlled enterprise deployment.
+- Before troubleshooting automatic enrollment, verify which group is assigned to the MDM User Scope and whether the test user belongs to it.
+
+Important distinction:
+- Microsoft Entra registration or join establishes device identity.
+- Intune enrollment establishes device management.
+- MDM User Scope controls automatic Intune enrollment; it does not authorize Microsoft Entra registration or join.
+
+### Pending Controlled Test
+
+A future controlled test must determine whether a standard user can:
+- Register a personal device in Microsoft Entra ID.
+- Join a corporate Windows device to Microsoft Entra ID.
+- Enroll a device in Intune.
+- Accidentally register or enroll a domain-joined Windows device.
+- Obtain local administrator rights during a Microsoft Entra join.
+
+The test must identify which layer permits or blocks each action:
+- Windows
+- Active Directory
+- Microsoft Entra ID
+- Intune
+- User permissions
+- Device settings
+- MDM User Scope
+- Conditional Access
+- GPO or MDM policy
+
+LAB-ADMIN is currently joined to lab.richardrubio.com. Its join state must not be changed without planning the test and checking the available Hyper-V checkpoint first.
+
 ## Completed
 
 ### Base Infrastructure
@@ -317,15 +380,66 @@ Deleted test users:
 - Expected synchronized users verified in Microsoft Entra ID.
 - AD DS administrative account successfully excluded from synchronization.
 
+## MD-102 Learning Progress
+
+### Latest Completed Module
+
+The previous module covering Microsoft Entra device configuration and management is complete.
+
+Topics completed:
+- Microsoft Entra registered devices
+- Microsoft Entra joined devices
+- Microsoft Entra hybrid joined devices
+- Microsoft Entra device settings
+- Restricting which users may join devices
+- Assigned and dynamic groups
+- Dynamic membership rules
+- Rule validation
+- Differences between Microsoft Entra dynamic groups and Intune assignment filters
+- Device administration RBAC
+- MFA for device registration and join
+- Intune policy assignment targeting
+
+Knowledge check:
+- Completed.
+- Relevant error: Microsoft Entra joined was confused with Microsoft Entra registered for corporate Windows 11 laptops without on-premises Active Directory.
+
+Mental model:
+- Registration = normally a personal or BYOD device.
+- Join = corporate device whose primary organizational identity is Microsoft Entra ID.
+- Hybrid join = on-premises domain join plus a device identity in Microsoft Entra ID.
+- Intune enrollment is separate from device registration or join.
+
+Important clarification:
+- A dynamic rule based on user.department adds users to a dynamic user group.
+- It does not automatically add those users' devices.
+- Dynamic membership processing must not be treated as instantaneous.
+- Intune assignment filters are not Microsoft Entra dynamic groups.
+
+### Current Module
+
+Module:
+- Administración de la identidad y la autenticación del dispositivo mediante Microsoft Entra ID
+
+Status:
+- Not started.
+
+Exact continuation point:
+- Begin the first unit.
+
 ## Next Goal
 
-Return to the Microsoft Learn MD-102 learning path.
+Immediate next step:
 
-Immediate next steps:
+1. Begin the first unit of:
+   - Administración de la identidad y la autenticación del dispositivo mediante Microsoft Entra ID.
 
-1. Create updated Hyper-V checkpoints.
-2. Continue the Microsoft Learn MD-102 course.
-3. Validate future Microsoft Entra and Intune concepts in the HomeLab only when required by the learning path.
+Later tasks:
+- Review the group assigned to MDM User Scope = Some.
+- Create and validate Conditional Access for Register or join devices.
+- Replace the legacy device MFA setting after Conditional Access is operational.
+- Plan the controlled LAB-ADMIN device identity and enrollment test.
+- Create dynamic device groups only when real Microsoft Entra devices and a useful targeting requirement exist.
 
 ## Methodology
 - Microsoft Learn is the main guide.

@@ -4,26 +4,30 @@
 v1.0
 
 ## Current Module
-MD-102 - Administración de la identidad y la autenticación del dispositivo mediante Microsoft Entra ID
+
+MD-102 - Implementar directivas de seguridad y cifrado de dispositivos mediante Microsoft Intune
 
 ## Project Goal
+
 Build a Microsoft administrator HomeLab aligned with Microsoft Learn and MD-102.
 
 Main priorities:
+
 1. Get ready for a Microsoft Systems Administrator role.
 2. Prepare official Microsoft certifications.
 3. Build practical experience with AD DS, Microsoft Entra ID, Intune, Microsoft 365, PowerShell and hybrid identity.
 
 ## Current Learning Path
-MD-102 - Explore endpoint management
+
+MD-102 - Protección de dispositivos mediante Microsoft Intune
 
 Current status:
-- Microsoft Learn is the main guide.
-- Microsoft Entra Connect deployment and initial hybrid identity validation are complete.
-- The MD-102 learning path has resumed.
-- The previous module covering Microsoft Entra device configuration and management is complete.
-- Current module: Administración de la identidad y la autenticación del dispositivo mediante Microsoft Entra ID.
-- Exact continuation point: first unit, not yet started.
+
+- Microsoft Learn remains the main guide.
+- The learning path Administración y mantenimiento de dispositivos mediante Microsoft Intune is complete.
+- The module Implementación de la seguridad del punto de conexión con Microsoft Defender y Microsoft Intune is complete.
+- Current module: Implementar directivas de seguridad y cifrado de dispositivos mediante Microsoft Intune.
+- Exact continuation point: first content unit, Comprender la importancia del cifrado de dispositivos para el cumplimiento y la seguridad, not yet started.
 
 ## Identity Architecture
 
@@ -382,59 +386,87 @@ LAB-ADMIN is currently joined to lab.richardrubio.com. Its join state must not b
 
 ## MD-102 Learning Progress
 
-### Latest Completed Module
+### Completed Areas
 
-The previous module covering Microsoft Entra device configuration and management is complete.
+Completed learning includes:
+
+- Microsoft Entra registered, joined and hybrid joined devices.
+- Device identity and authentication with Microsoft Entra ID.
+- Windows Hello for Business, MFA, SSPR and device authentication methods.
+- Planning and implementing device enrollment with Microsoft Intune.
+- Windows, iOS/iPadOS and Android enrollment.
+- Windows Autopilot deployment.
+- Device configuration profiles, assignments, groups and Intune filters.
+- Device monitoring and maintenance.
+- Windows update rings, feature updates, Hotpatch and Windows Autopatch.
+- Device lifecycle actions: Retire, Wipe, Fresh Start and Autopilot Reset.
+- Troubleshooting enrollment, compliance and configuration profile conflicts.
+- Intune diagnostics, client-side logs and Remediations.
+- The learning path Administración y mantenimiento de dispositivos mediante Microsoft Intune.
+
+### Current Learning Path
+
+Learning path:
+- Protección de dispositivos mediante Microsoft Intune
+
+Completed module:
+- Implementación de la seguridad del punto de conexión con Microsoft Defender y Microsoft Intune
 
 Topics completed:
-- Microsoft Entra registered devices
-- Microsoft Entra joined devices
-- Microsoft Entra hybrid joined devices
-- Microsoft Entra device settings
-- Restricting which users may join devices
-- Assigned and dynamic groups
-- Dynamic membership rules
-- Rule validation
-- Differences between Microsoft Entra dynamic groups and Intune assignment filters
-- Device administration RBAC
-- MFA for device registration and join
-- Intune policy assignment targeting
 
-Knowledge check:
-- Completed.
-- Relevant error: Microsoft Entra joined was confused with Microsoft Entra registered for corporate Windows 11 laptops without on-premises Active Directory.
+- Difference between Microsoft Defender Antivirus and Microsoft Defender for Endpoint.
+- Endpoint telemetry, cloud analysis, EDR and automated investigation and remediation.
+- Integration between Microsoft Defender, Microsoft Intune and Microsoft Entra Conditional Access.
+- Device onboarding to Defender through an Intune EDR policy.
+- Security baselines and separate endpoint security policies for antivirus, firewall, ASR and EDR.
+- ASR staged deployment using audit, evaluation and block modes.
+- Investigation, triage and response to incidents in the Microsoft Defender portal.
+- Defender for Business, Defender for Endpoint Plan 1 and Plan 2 licensing concepts.
 
-Mental model:
-- Registration = normally a personal or BYOD device.
-- Join = corporate device whose primary organizational identity is Microsoft Entra ID.
-- Hybrid join = on-premises domain join plus a device identity in Microsoft Entra ID.
-- Intune enrollment is separate from device registration or join.
+Important mental model:
 
-Important clarification:
-- A dynamic rule based on user.department adds users to a dynamic user group.
-- It does not automatically add those users' devices.
-- Dynamic membership processing must not be treated as instantaneous.
-- Intune assignment filters are not Microsoft Entra dynamic groups.
+- Intune enrolls, configures and manages the device.
+- An Intune EDR onboarding policy connects the device sensor to the organization’s Defender tenant.
+- Defender receives and analyses telemetry and provides incident investigation and response.
+- Intune can consume Defender device-risk signals for compliance.
+- Microsoft Entra Conditional Access can restrict access based on the resulting compliance state.
 
 ### Current Module
 
 Module:
-- Administración de la identidad y la autenticación del dispositivo mediante Microsoft Entra ID
+- Implementar directivas de seguridad y cifrado de dispositivos mediante Microsoft Intune
 
 Status:
 - Not started.
 
 Exact continuation point:
-- Begin the first unit.
+- Begin the first content unit:
+  - Comprender la importancia del cifrado de dispositivos para el cumplimiento y la seguridad.
 
 ## Next Goal
 
 Immediate next step:
 
-1. Begin the first unit of:
-   - Administración de la identidad y la autenticación del dispositivo mediante Microsoft Entra ID.
+1. Begin the first content unit of:
+   - Implementar directivas de seguridad y cifrado de dispositivos mediante Microsoft Intune.
+   - Unit: Comprender la importancia del cifrado de dispositivos para el cumplimiento y la seguridad.
 
-Later tasks:
+Planned Defender and Intune practice:
+
+1. Verify the available Microsoft 365 Business Premium and Defender for Business licensing.
+2. Connect Microsoft Intune with Microsoft Defender.
+3. Create a pilot device group.
+4. Onboard LAB-ADMIN to Defender through an Intune EDR policy.
+5. Validate policy application in Intune.
+6. Validate device presence and telemetry in the Microsoft Defender portal.
+7. Export and analyse GPO - Microsoft Defender - Workstations with Group Policy Analytics.
+8. Compare the existing GPO settings with the Microsoft Defender security baseline and endpoint security policies in Intune.
+9. Migrate supported settings to modular Intune policies.
+10. Validate the new configuration technically and functionally before retiring overlapping GPO settings.
+11. Generate a safe Defender simulation and follow the resulting alert and incident investigation.
+
+Other pending tasks:
+
 - Review the group assigned to MDM User Scope = Some.
 - Create and validate Conditional Access for Register or join devices.
 - Replace the legacy device MFA setting after Conditional Access is operational.

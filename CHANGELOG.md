@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## Unreleased
+
+### Documentation
+
+* Updated `PROJECT_STATE.md` with the current MD-102 learning progress.
+* Recorded completion of the learning path:
+  * Administración y mantenimiento de dispositivos mediante Microsoft Intune.
+* Recorded completion of the module:
+  * Implementación de la seguridad del punto de conexión con Microsoft Defender y Microsoft Intune.
+* Set the exact continuation point:
+  * Learning path: Protección de dispositivos mediante Microsoft Intune.
+  * Module: Implementar directivas de seguridad y cifrado de dispositivos mediante Microsoft Intune.
+  * First content unit not yet started: Comprender la importancia del cifrado de dispositivos para el cumplimiento y la seguridad.
+* Added the planned Defender and Intune HomeLab practice:
+  * Connect Intune with Defender.
+  * Onboard `LAB-ADMIN` through an EDR policy.
+  * Validate telemetry in the Microsoft Defender portal.
+  * Analyse and migrate `GPO - Microsoft Defender - Workstations` using Group Policy Analytics and modular Intune policies.
+  * Generate and investigate a safe Defender simulation.
+
+### Technical State
+
+* No HomeLab infrastructure or configuration changes were made.
+* Current functional version remains `v1.0`.
+
 ## v1.0 - Hybrid Identity Foundation
 
 ### Added
